@@ -1,3 +1,8 @@
+"""
+Best First Search (greedy algorithm),
+always move to the end point, not good with obstacles, can find not the shortest path
+"""
+
 from queue import PriorityQueue
 import grid_helper as gh
 from pprint import pprint
@@ -26,7 +31,7 @@ def find_path_greedy(grid, start, end):
 
 
 def init():
-    initial_grid = gh.generate_grid0()
+    initial_grid = gh.generate_grid_empty()
     start, end = (1, 0), (8, 8)
     came_from = find_path_greedy(initial_grid, start, end)
     path = gh.find_path(start, end, came_from)

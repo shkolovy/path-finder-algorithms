@@ -1,3 +1,8 @@
+"""
+Dijkstra algorithm, find the cheapest path.
+if price is the same for every move it works like BFS
+"""
+
 from queue import PriorityQueue
 import grid_helper as gh
 from pprint import pprint
@@ -7,7 +12,7 @@ def find_path_dijkstra(grid, start, end):
     pq = PriorityQueue()
     pq.put((0, start))
     came_from = {start: None}
-    cost = {start: 0}
+    costs = {start: 0}
 
     while not pq.empty():
         current_pos = pq.get()[1]
@@ -18,10 +23,10 @@ def find_path_dijkstra(grid, start, end):
         neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
 
         for neighbor in neighbors:
-            new_cost = cost[current_pos] + gh.get_weight(grid, neighbor)
+            new_cost = costs[current_pos] + gh.get_cost(grid, neighbor)
 
-            if neighbor not in cost or new_cost < cost[neighbor]:
-                cost[neighbor] = new_cost
+            if neighbor not in costs or new_cost < costs[neighbor]:
+                costs[neighbor] = new_cost
                 pq.put((new_cost, neighbor))
                 came_from[neighbor] = current_pos
 
@@ -29,7 +34,7 @@ def find_path_dijkstra(grid, start, end):
 
 
 def init():
-    initial_grid = gh.generate_grid_w()
+    initial_grid = gh.generate_grid_weighted()
     start, end = (4, 0), (4, 6)
     came_from = find_path_dijkstra(initial_grid, start, end)
     path = gh.find_path(start, end, came_from)

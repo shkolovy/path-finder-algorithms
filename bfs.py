@@ -22,7 +22,7 @@ def scan_grid(grid, start=(0, 0)):
 
 
 def init():
-    initial_grid = gh.generate_grid()
+    initial_grid = gh.generate_grid_obstacle_for_b_star()
     start_pos = (3, 0)
     directions = scan_grid(initial_grid, start_pos)
 

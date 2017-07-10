@@ -1,3 +1,12 @@
+"""
+S - start point
+E - end point
+x - visited
+@ - path
+# - obstacle
+1 - cost
+"""
+
 import math
 
 START_COL = "S"
@@ -7,7 +16,7 @@ OBSTACLE_COL = "#"
 PATH_COL = "@"
 
 
-def generate_grid0():
+def generate_grid_empty():
     return [[".", ".", ".", ".", ".", ".", ".", ".", "."],
             [".", ".", ".", ".", ".", ".", ".", ".", "."],
             [".", ".", ".", ".", ".", ".", ".", ".", "."],
@@ -19,7 +28,7 @@ def generate_grid0():
             [".", ".", ".", ".", ".", ".", ".", ".", "."]]
 
 
-def generate_grid1():
+def generate_grid_obstacle():
     return [[".", ".", "#", ".", ".", ".", ".", ".", "."],
             [".", ".", "#", ".", "#", ".", ".", ".", "."],
             [".", ".", ".", ".", "#", ".", ".", ".", "."],
@@ -31,7 +40,7 @@ def generate_grid1():
             [".", ".", ".", ".", ".", ".", ".", ".", "."]]
 
 
-def generate_grid():
+def generate_grid_obstacle_for_b_star():
     """
     worst obstacle for B*
     """
@@ -47,7 +56,7 @@ def generate_grid():
             [".", ".", ".", ".", ".", ".", ".", ".", "."]]
 
 
-def generate_grid_w():
+def generate_grid_weighted():
     """
     weighted grid
     """
@@ -95,7 +104,7 @@ def find_path(start, end, came_from):
     return path
 
 
-def get_weight(grid, pos):
+def get_cost(grid, pos):
     col_val = grid[pos[0]][pos[1]]
     return int(col_val) if col_val.isdigit() else 1
 
