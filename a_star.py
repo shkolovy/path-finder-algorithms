@@ -1,6 +1,6 @@
 """
-Best First Search (greedy algorithm),
-always move to the end point, not good with obstacles, can find not the shortest path
+Dijkstra algorithm, find the cheapest path.
+if price is the same for every move it works like BFS
 """
 
 from queue import PriorityQueue
@@ -8,10 +8,11 @@ import grid_helper as gh
 from pprint import pprint
 
 
-def find_path_greedy(grid, start, end):
+def find_path_a_star(grid, start, end):
     pq = PriorityQueue()
     pq.put((0, start))
     came_from = {start: None}
+    costs = {start: 0}
 
     while not pq.empty():
         current_pos = pq.get()[1]
@@ -20,10 +21,13 @@ def find_path_greedy(grid, start, end):
             break
 
         neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
+
         for neighbor in neighbors:
-            if neighbor not in came_from:
-                priority = gh.heuristic_distance(neighbor, end, type="e")
-                grid[neighbor[0]][neighbor[1]] = "x"
+            new_cost = costs[current_pos] + gh.get_cost(grid, neighbor)
+
+            if neighbor not in costs or new_cost < costs[neighbor]:
+                costs[neighbor] = new_cost
+                priority = new_cost + gh.heuristic_distance(neighbor, end)
                 pq.put((priority, neighbor))
                 came_from[neighbor] = current_pos
 
@@ -31,9 +35,9 @@ def find_path_greedy(grid, start, end):
 
 
 def init():
-    initial_grid = gh.generate_grid_obstacle_for_b_star()
-    start, end = (1, 0), (8, 8)
-    came_from = find_path_greedy(initial_grid, start, end)
+    initial_grid = gh.generate_grid_weighted()
+    start, end = (4, 0), (4, 6)
+    came_from = find_path_a_star(initial_grid, start, end)
     path = gh.find_path(start, end, came_from)
     gh.draw_path(path, initial_grid)
 
