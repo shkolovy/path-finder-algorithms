@@ -22,8 +22,7 @@ def find_path_greedy(grid, start, end):
         neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
         for neighbor in neighbors:
             if neighbor not in came_from:
-                priority = gh.heuristic_distance(neighbor, end, type="e")
-                grid[neighbor[0]][neighbor[1]] = "x"
+                priority = gh.heuristic_distance(neighbor, end, type="m")
                 pq.put((priority, neighbor))
                 came_from[neighbor] = current_pos
 
@@ -31,8 +30,8 @@ def find_path_greedy(grid, start, end):
 
 
 def init():
-    initial_grid = gh.generate_grid_obstacle_for_b_star()
-    start, end = (1, 0), (8, 8)
+    initial_grid = gh.generate_grid_empty()
+    start, end = (0, 0), (8, 8)
     came_from = find_path_greedy(initial_grid, start, end)
     path = gh.find_path(start, end, came_from)
     gh.draw_path(path, initial_grid)

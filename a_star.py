@@ -13,7 +13,6 @@ def find_path_a_star(grid, start, end):
     pq.put((0, start))
     came_from = {start: None}
     costs = {start: 0}
-
     while not pq.empty():
         current_pos = pq.get()[1]
 
@@ -21,7 +20,6 @@ def find_path_a_star(grid, start, end):
             break
 
         neighbors = gh.get_neighbors(grid, current_pos[0], current_pos[1])
-
         for neighbor in neighbors:
             new_cost = costs[current_pos] + gh.get_cost(grid, neighbor)
 
@@ -35,8 +33,8 @@ def find_path_a_star(grid, start, end):
 
 
 def init():
-    initial_grid = gh.generate_grid_weighted()
-    start, end = (4, 0), (4, 6)
+    initial_grid = gh.generate_grid_obstacle_for_b_star()
+    start, end = (4, 0), (4, 8)
     came_from = find_path_a_star(initial_grid, start, end)
     path = gh.find_path(start, end, came_from)
     gh.draw_path(path, initial_grid)
